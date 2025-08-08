@@ -1,1 +1,39 @@
-unity
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Visual Studio / VS Code
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.suo
+*.tmp
+*.pidb
+*.booproj
+*.svd
+*.pdb
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+*.lock
+
+# Outros
+*.apk
+*.aab
+*.log
+*.orig
+*.old
+*.[Ii]dea
+/.vsconfig
+/UserSettings/EditorUserSettings.asset
+/UserSettings/Search.settings
