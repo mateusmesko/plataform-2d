@@ -11,14 +11,18 @@ public class Player : MonoBehaviour
     public float speedRun;
     public float forceJump = 2;
 
+    [Header("Animação")]
+    public Animator animator;
+    public string runTrigger = "Run";
+    public string idleTrigger = "Idle";
 
     private float _currentSpeed;
+    private bool facingRight = true; // Controle da direção
 
     private void Update()
     {
         HandleMoviment();
         HandleJump();
-
     }
 
     private void HandleMoviment()
@@ -29,10 +33,33 @@ public class Player : MonoBehaviour
             _currentSpeed = speed;
 
         if (Input.GetKey(KeyCode.LeftArrow))
+        {
             rigidbody2D.velocity = new Vector2(-_currentSpeed, rigidbody2D.velocity.y);
+
+            // Vira para esquerda se necessário
+            if (facingRight)
+                Flip();
+
+            if (animator != null)
+                animator.SetTrigger(runTrigger);
+        }
         else if (Input.GetKey(KeyCode.RightArrow))
+        {
             rigidbody2D.velocity = new Vector2(_currentSpeed, rigidbody2D.velocity.y);
 
+            // Vira para direita se necessário
+            if (!facingRight)
+                Flip();
+
+            if (animator != null)
+                animator.SetTrigger(runTrigger);
+        }
+        else
+        {
+            animator.SetTrigger(idleTrigger);
+        }
+
+        // Fricção
         if (rigidbody2D.velocity.x > 0)
             rigidbody2D.velocity += friction;
         else if (rigidbody2D.velocity.x < 0)
@@ -45,4 +72,12 @@ public class Player : MonoBehaviour
             rigidbody2D.velocity = Vector2.up * forceJump;
     }
 
+    // Inverte o personagem
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
 }
