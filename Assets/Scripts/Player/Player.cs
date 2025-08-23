@@ -7,10 +7,8 @@ public class Player : MonoBehaviour
     [Header("Movimento")]
     public Rigidbody2D rigidbody2D;
     public Vector2 friction = new Vector2(.1f, 0);
-    public float speed;
-    public float speedRun;
-    public float forceJump = 2;
 
+    public SO_PLAYER player;
     [Header("Animação")]
     public Animator animator;
     public string runTrigger = "Run";
@@ -28,9 +26,9 @@ public class Player : MonoBehaviour
     private void HandleMoviment()
     {
         if (Input.GetKey(KeyCode.LeftControl))
-            _currentSpeed = speedRun;
+            _currentSpeed = player.run;
         else
-            _currentSpeed = speed;
+            _currentSpeed = player.speed;
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -69,7 +67,7 @@ public class Player : MonoBehaviour
     private void HandleJump()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
-            rigidbody2D.velocity = Vector2.up * forceJump;
+            rigidbody2D.velocity = Vector2.up * player.jump;
     }
 
     // Inverte o personagem
