@@ -10,12 +10,18 @@ public class CollectableBase : MonoBehaviour
     public float timeToHide = 3f;
     public GameObject graphicItem;
 
+    [Header("Sounds")]
+    public AudioClip collectClip; // som do item
+    private AudioSource audioSource; // componente que vai tocar
+
     private void Awake()
     {
-        /*if (particleSystem != null)
+        // pega ou adiciona automaticamente um AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
         {
-            particleSystem.transform.SetParent(null);
-        }  */
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,7 +38,7 @@ public class CollectableBase : MonoBehaviour
         {
             graphicItem.SetActive(false);
         }
-        Invoke(nameof(HideObject),timeToHide); 
+        Invoke(nameof(HideObject), timeToHide);
         OnCollect();
     }
 
@@ -40,11 +46,17 @@ public class CollectableBase : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
     protected virtual void OnCollect()
     {
         if (particleSystem != null)
         {
             particleSystem.Play();
+        }
+
+        if (collectClip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(collectClip);
         }
     }
 }

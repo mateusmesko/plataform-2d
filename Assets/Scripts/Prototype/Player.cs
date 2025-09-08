@@ -17,8 +17,12 @@ public class Player : MonoBehaviour
         public float distanceToGround;
         public float spaceToGround = 0.1f;
         public ParticleSystem jumpVFX;
-    
-    
+
+    [Header("Sounds")]
+    public AudioClip jumpClip; // som do item
+    private AudioSource audioSource; // componente que vai tocar
+
+
     private float _currentSpeed;
     private Animator _currentPlayer;
 
@@ -36,6 +40,12 @@ public class Player : MonoBehaviour
         _currentPlayer = Instantiate(soPlayer.player,transform);
         _currentPlayer.GetComponentInChildren<GunBase>().playerSideReference = transform;
         _currentPlayer.GetComponentInChildren<PlayerDestroyHelper>().player = this;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     private bool IsGrounded()
@@ -120,6 +130,7 @@ public class Player : MonoBehaviour
             _currentPlayer.SetBool(soPlayer.boolJump,true);
             PlayerJumpScale();
             PlayJumpVFX();
+            StringJumpSFX();
         }
     }
 
@@ -130,6 +141,14 @@ public class Player : MonoBehaviour
             jumpVFX.Play();
         }
     }
+    private void StringJumpSFX()
+    {
+        if (jumpClip != null)
+        {
+            audioSource.PlayOneShot(jumpClip);
+        }
+    }
+
 
     private void PlayerJumpScale()
     {
